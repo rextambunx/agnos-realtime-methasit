@@ -42,6 +42,12 @@
 - Progress bar แสดง % ของ field ที่กรอกแล้ว เพื่อให้ผู้ป่วยรู้ว่าเหลืออีกเท่าไหร่
 - Submit button มี loading state (spinner) และ success state เพื่อ feedback ที่ชัดเจน
 
+### UI
+- Background image ที่เหมือนกับเว็ปไซต์ Agnos พร้อม blur + opacity overlay ให้ดู clean ไม่รบกวนการอ่าน
+- Card สีขาว (`bg-white rounded-xl shadow`) วางทับ background แยก content ออกชัดเจน
+- สี Primary โทนน้ำเงิน (`#1E4FA8`, `#2F6FD6`) ให้ดู professional เหมาะกับ medical system และ theme ของ Agnos
+- Status indicator ใช้ dot สี + ข้อความ (เทา/น้ำเงิน pulse/เขียว) แสดงสถานะผู้ป่วยแบบ real-time
+- Responsive ทุกหน้า รองรับทั้ง mobile และ desktop
 ---
 
 ## 3. Component Architecture
