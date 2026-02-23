@@ -73,6 +73,8 @@ Server จะรันที่ http://localhost:4000
 │   │   └── Topnav.tsx  # Topnav
 │   ├── staff/          # Staff Dashboard page
 │   │   └── page.tsx
+│   ├── thankyou/       # Thankyou page
+│   │   └── page.tsx
 │   ├── lib/
 │   │   └── socket.ts   # Socket.io client config
 │   └── server/

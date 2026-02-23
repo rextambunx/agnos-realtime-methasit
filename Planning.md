@@ -41,6 +41,7 @@
 - Required fields แสดง `*` และ error message สีแดงใต้ field ทันที
 - Progress bar แสดง % ของ field ที่กรอกแล้ว เพื่อให้ผู้ป่วยรู้ว่าเหลืออีกเท่าไหร่
 - Submit button มี loading state (spinner) และ success state เพื่อ feedback ที่ชัดเจน
+- หน้าขอบคุณแสดงว่าตอบ from สำเร็จ
 
 ### UI
 - Background image ที่เหมือนกับเว็ปไซต์ Agnos พร้อม blur + opacity overlay ให้ดู clean ไม่รบกวนการอ่าน

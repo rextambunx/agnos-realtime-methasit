@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link"
 import { socket } from "../lib/socket";
-import { usePathname } from "next/navigation"
+import { usePathname,useRouter } from "next/navigation"
 import TopNav from "./TopNav";
 
 export default function PatientPage() {
@@ -22,6 +22,7 @@ export default function PatientPage() {
     religion: "",
   });
 
+const router = useRouter();
 const [isLoading, setIsLoading] = useState(false);
 const [isSuccess, setIsSuccess] = useState(false);
 const [isTyping, setIsTyping] = useState(false);
@@ -59,34 +60,35 @@ const progress = Math.floor((filledFields / 12) * 100);
     socket.emit("typing", updated);
   };
 
-  const handleSubmit = () => {
+    const handleSubmit = () => {
     let newErrors: Record<string, string> = {};
 
     requiredFields.forEach((field) => {
-      if (!form[field as keyof typeof form]) {
+        if (!form[field as keyof typeof form]) {
         newErrors[field] = "This field is required";
-      }
+        }
     });
 
     if (form.email && !/\S+@\S+\.\S+/.test(form.email)) {
-      newErrors.email = "Email should look like example@email.com";
+        newErrors.email = "Email should look like example@email.com";
     }
 
     if (form.phone && !/^[0-9]{9,10}$/.test(form.phone)) {
-      newErrors.phone = "Phone number looks incorrect";
+        newErrors.phone = "Phone number looks incorrect";
     }
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length > 0) return;
 
+    setIsLoading(true);
+
     socket.emit("submit", form);
 
     console.log("Submit:", form);
-    setIsLoading(true);
-    setIsLoading(false);
-    setIsSuccess(true);
-  };
+
+    router.push("/thankyou");
+    };
 
   const formatDate = (date: string) => {
   if (!date) return "-";
