@@ -80,6 +80,7 @@ Server จะรันที่ http://localhost:4000
 │   └── server/
 │       └── server.js   # Express + Socket.io server
 ├── public/
-│   └── bg_main.png
+│   └── bg_main.png     # BG
+│   └── agnosimg.png    # Logo
 └── README.md
 ```

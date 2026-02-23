@@ -9,12 +9,15 @@
 │   │   └── TopNav.tsx      # Shared navigation bar component
 │   ├── staff/              # Staff Dashboard page
 │   │   └── page.tsx        # Real-time display, status indicator
+│   ├── thankyou/           # Thank You page
+│   │   └── page.tsx        # แสดงหลัง submit สำเร็จ
 │   ├── lib/
 │   │   └── socket.ts       # Socket.io client instance (shared)
 │   └── server/
 │       └── server.js       # Express + Socket.io server
 ├── public/
-│   └── bg_main.png         # Background image
+│   ├── bg_main.png         # Background image
+│   └── agnosimg.png        # Agnos logo
 └── README.md
 ```
 
@@ -41,14 +44,15 @@
 - Required fields แสดง `*` และ error message สีแดงใต้ field ทันที
 - Progress bar แสดง % ของ field ที่กรอกแล้ว เพื่อให้ผู้ป่วยรู้ว่าเหลืออีกเท่าไหร่
 - Submit button มี loading state (spinner) และ success state เพื่อ feedback ที่ชัดเจน
-- หน้าขอบคุณแสดงว่าตอบ from สำเร็จ
+- หลัง submit สำเร็จ redirect ไปหน้า Thank You เพื่อยืนยันการส่งข้อมูล
 
 ### UI
-- Background image ที่เหมือนกับเว็ปไซต์ Agnos พร้อม blur + opacity overlay ให้ดู clean ไม่รบกวนการอ่าน
+- Background image ที่เหมือนกับเว็บไซต์ Agnos พร้อม blur + opacity overlay ให้ดู clean ไม่รบกวนการอ่าน
 - Card สีขาว (`bg-white rounded-xl shadow`) วางทับ background แยก content ออกชัดเจน
 - สี Primary โทนน้ำเงิน (`#1E4FA8`, `#2F6FD6`) ให้ดู professional เหมาะกับ medical system และ theme ของ Agnos
-- Status indicator ใช้ dot สี + ข้อความ (เทา/น้ำเงิน pulse/เขียว) แสดงสถานะผู้ป่วยแบบ real-time
+- Status indicator ใช้ dot สี + ข้อความ (เทา / น้ำเงิน pulse / เขียว) แสดงสถานะผู้ป่วยแบบ real-time
 - Responsive ทุกหน้า รองรับทั้ง mobile และ desktop
+
 ---
 
 ## 3. Component Architecture
@@ -57,7 +61,7 @@
 รับผิดชอบ
 - Render ฟอร์มทั้งหมดพร้อม validation
 - `handleChange` — emit ข้อมูลและ status `"Typing..."` ไปยัง server ทุกครั้งที่มีการเปลี่ยนแปลง
-- `handleSubmit` — validate แล้ว emit status `"Submitted"`
+- `handleSubmit` — validate แล้ว emit status `"Submitted"` จากนั้น redirect ไปหน้า `/thankyou`
 - คำนวณ progress จาก required fields ที่กรอกแล้ว
 
 ### `app/staff/page.tsx` — Staff Dashboard
@@ -67,9 +71,14 @@
 - แสดง status indicator (Waiting / Typing... / Submitted) พร้อม dot สี
 - แสดง last updated timestamp
 
+### `app/thankyou/page.tsx` — Thank You Page
+รับผิดชอบ
+- แสดงหน้ายืนยันหลังจาก patient submit ฟอร์มสำเร็จ
+- แจ้งให้ผู้ป่วยทราบว่าข้อมูลถูกส่งเรียบร้อยแล้ว
+
 ### `app/patient/TopNav.tsx` — Navigation Bar
 - Shared component ใช้ทั้ง Patient และ Staff page
-- แสดง logo และ link สลับระหว่าง 2 หน้า
+- แสดง logo (agnosimg.png) และ link สลับระหว่าง 2 หน้า
 
 ### `app/lib/socket.ts` — Socket Client
 - สร้าง Socket.io client instance เพียงครั้งเดียว
@@ -95,6 +104,8 @@ Patient (Browser)                Server                  Staff (Browser)
       |  onClick Submit             |                           |
       |─── emit("status","Submitted")►|                         |
       |                             |── broadcast("status") ───────►|
+      |                             |                           |
+      |  redirect → /thankyou       |                           |
 ```
 
 ### Flow อธิบาย
@@ -102,7 +113,8 @@ Patient (Browser)                Server                  Staff (Browser)
 2. Server รับ event แล้ว broadcast ไปยังทุก client ที่ connect อยู่ทันที
 3. Staff Dashboard รับ event → update state → React re-render แสดงผลใหม่
 4. เมื่อผู้ป่วย Submit → emit `status` เป็น `"Submitted"` → Staff เห็น status เปลี่ยนเป็นสีเขียว
-5. หากไม่มีการกรอก → Staff เห็น status เป็น `"Waiting"` สีเทา
+5. Patient ถูก redirect ไปหน้า `/thankyou` อัตโนมัติ
+6. หากไม่มีการกรอก → Staff เห็น status เป็น `"Waiting"` สีเทา
 
 ### Technology
 - **Socket.io** — จัดการ WebSocket connection พร้อม fallback และ auto-reconnect
