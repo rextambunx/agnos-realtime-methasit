@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Agnos Realtime Patient Form
+
+
+> โปรเจกต์นี้จัดทำขึ้นเพื่อส่งเป็นแบบทดสอบสำหรับนายเมธาสิทธ์ ตามบุญ ตำแหน่ง Front-end Developer ของบริษัท Agnos เท่านั้น
+
+## Overview
+
+ระบบฟอร์มกรอกข้อมูลผู้ป่วยแบบ Real-time ประกอบด้วย 2 หน้าหลัก
+
+- **Patient Form** — หน้าสำหรับผู้ป่วยกรอกข้อมูลส่วนตัว พร้อม form validation และ progress bar
+- **Staff Dashboard** — หน้าสำหรับเจ้าหน้าที่ดูข้อมูลที่ผู้ป่วยกำลังกรอกแบบ Real-time พร้อมแสดงสถานะ Waiting / Typing... / Submitted
+
+## Live Demo
+
+| Service  | URL |
+|----------|-----|
+| Frontend | https://agnos-realtime-methasit.vercel.app/ |
+| Backend  | https://agnos-realtime-methasit.onrender.com/ |
+
+## Tech Stack
+
+- **Framework**: Next.js + TypeScript
+- **Styling**: TailwindCSS
+- **Real-Time**: Socket.io (WebSocket)
+- **Hosting**: Vercel (Frontend), Render (Backend)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js >= 18
+- npm
+
+---
+
+### Frontend
 
 ```bash
+# 1. Install dependencies
+npm install
+
+# 2. Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+เปิดที่ http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Backend
 
-## Learn More
+```bash
+# 1. เข้าไปที่ folder server
+cd app/server
 
-To learn more about Next.js, take a look at the following resources:
+# 2. Install dependencies
+npm install
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# 3. Run server
+node server.js
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Server จะรันที่ http://localhost:4000
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+├── app/
+│   ├── patient/        # Patient Form page
+│   ├── staff/          # Staff Dashboard page
+│   ├── lib/
+│   │   └── socket.ts   # Socket.io client config
+│   └── server/
+│       └── server.js   # Express + Socket.io server
+├── public/
+│   └── bg_main.png
+└── README.md
+```
