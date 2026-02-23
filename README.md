@@ -69,7 +69,10 @@ Server จะรันที่ http://localhost:4000
 ```
 ├── app/
 │   ├── patient/        # Patient Form page
+│   │   └── page.tsx
+│   │   └── Topnav.tsx  # Topnav
 │   ├── staff/          # Staff Dashboard page
+│   │   └── page.tsx
 │   ├── lib/
 │   │   └── socket.ts   # Socket.io client config
 │   └── server/
